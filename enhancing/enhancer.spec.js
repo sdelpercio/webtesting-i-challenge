@@ -61,4 +61,32 @@ describe('enhancer', () => {
 			expect(enhancer.fail(item)).toStrictEqual(itemOutput);
 		});
 	});
+	describe('enhance succeed function', () => {
+		it('should increase the enhancement level by 1 if level < 20', () => {
+			const item = {
+				name: 'Mjolnir',
+				durability: 50,
+				enhancement: 12
+			};
+			const itemOutput = {
+				name: 'Mjolnir',
+				durability: 50,
+				enhancement: 13
+			};
+			expect(enhancer.succeed(item)).toStrictEqual(itemOutput);
+		});
+		it('should not increase enhancement level if level >= 20', () => {
+			const item = {
+				name: 'Mjolnir',
+				durability: 50,
+				enhancement: 20
+			};
+			const itemOutput = {
+				name: 'Mjolnir',
+				durability: 50,
+				enhancement: 20
+			};
+			expect(enhancer.succeed(item)).toStrictEqual(itemOutput);
+		});
+	});
 });
