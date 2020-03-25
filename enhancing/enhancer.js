@@ -6,7 +6,9 @@ module.exports = {
 };
 
 function succeed(item) {
-	if (item.enhancement >= 20) {
+	if (item.enhancement > 20) {
+		throw new Error('Enhancement level can only be 0-20');
+	} else if (item.enhancement === 20) {
 		return { ...item };
 	} else {
 		item.enhancement += 1;
@@ -15,15 +17,20 @@ function succeed(item) {
 }
 
 function fail(item) {
-	if (item.enhancement < 15) {
+	if (item.enhancement < 15 && item.durability >= 5) {
 		item.durability -= 5;
 		return { ...item };
-	} else if (item.enhancement === 15 || item.enhancement === 16) {
+	} else if (
+		(item.enhancement === 15 && item.durability >= 10) ||
+		(item.enhancement === 16 && item.durability >= 10)
+	) {
 		item.durability -= 10;
 		return { ...item };
-	} else if (item.enhancement > 16) {
+	} else if (item.enhancement > 16 && item.durability >= 10) {
 		item.durability -= 10;
 		item.enhancement -= 1;
+		return { ...item };
+	} else {
 		return { ...item };
 	}
 }
@@ -39,5 +46,14 @@ function repair(item) {
 }
 
 function get(item) {
-	return { ...item };
+	if (item.enhancement === 0) {
+		return { ...item };
+	} else if (item.enhancement > 0) {
+		return {
+			...item,
+			name: `[+${item.enhancement}] ${item.name}`
+		};
+	} else {
+		return { ...item };
+	}
 }

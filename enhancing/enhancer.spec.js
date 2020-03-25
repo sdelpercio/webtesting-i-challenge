@@ -88,5 +88,44 @@ describe('enhancer', () => {
 			};
 			expect(enhancer.succeed(item)).toStrictEqual(itemOutput);
 		});
+		it('should throw error if enhancement level > 20', () => {
+			const item = {
+				name: 'Mjolnir',
+				durability: 50,
+				enhancement: 23
+			};
+			expect(() => {
+				enhancer.succeed(item);
+			}).toThrow();
+		});
+	});
+
+	describe('get function', () => {
+		it('should return name unchanged for enhancement level 0', () => {
+			const item = {
+				name: 'Mjolnir',
+				durability: 80,
+				enhancement: 0
+			};
+			const itemOutput = {
+				name: 'Mjolnir',
+				durability: 80,
+				enhancement: 0
+			};
+			expect(enhancer.get(item)).toStrictEqual(itemOutput);
+		});
+		it('should change the name to include enhancement level', () => {
+			const item = {
+				name: 'Mjolnir',
+				durability: 80,
+				enhancement: 20
+			};
+			const itemOutput = {
+				name: '[+20] Mjolnir',
+				durability: 80,
+				enhancement: 20
+			};
+			expect(enhancer.get(item)).toStrictEqual(itemOutput);
+		});
 	});
 });
